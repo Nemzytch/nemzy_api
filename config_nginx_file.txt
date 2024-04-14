@@ -1,0 +1,52 @@
+A record from mydomain.com to myserver_base_ip_adress for www and without wwww
+
+
+
+sudo nano /etc/nginx/sites-available/youss.cuik.io
+
+________________________________________________________________________________
+
+server {
+    listen 80;
+    server_name youss.cuik.io;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    server_name youss.cuik.io;
+
+    location / {
+        proxy_pass http://localhost:9463;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        # Add any other necessary proxy headers
+    }
+
+    # SSL configuration (if using HTTPS)
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/youss.cuik.io/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/youss.cuik.io/privkey.pem;
+}
+
+
+________________________________________________________________________________
+
+sudo systemctl stop nginx
+
+sudo certbot certonly --standalone -d youss.cuik.io
+
+sudo ln -s /etc/nginx/sites-available/youss.cuik.io /etc/nginx/sites-enabled/
+
+
+sudo nginx -t
+
+
+sudo systemctl restart nginx
+
+sudo certbot --nginx -d youss.cuik.io
+
+
+youss.cuik.io
+
+	
+54.37.245.123

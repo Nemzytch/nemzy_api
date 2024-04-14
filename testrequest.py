@@ -1,6 +1,6 @@
 import requests
 
-url = 'https://nemzy.cuik.io/hello'
+url = 'http://apiprod.cuik.io/'
 
 response = requests.get(url)
 print(response.status_code)
